@@ -1,0 +1,6 @@
+faiss-cpu
+langchain
+langchain_openai
+langchain-community
+langdetect
+openai
