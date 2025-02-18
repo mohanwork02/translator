@@ -10,7 +10,7 @@ def translate_text(text, api_key):
     openai.api_key = api_key
 
     # Detect the language
-    detection_response = openai.Completion.create(  # Use 'Completion' instead of 'ChatCompletion'
+    detection_response = openai.chat.Completion.create(  # Use 'Completion' instead of 'ChatCompletion'
         model="gpt-4",
         prompt=f"Detect if the input text is in English or Japanese. Reply with 'english' or 'japanese' only: {text}",
         max_tokens=10
