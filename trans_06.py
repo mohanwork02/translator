@@ -11,7 +11,7 @@ def translate_text(text, api_key):
 
     # Detect the language
     detection_response = openai.ChatCompletion.create(  # Use ChatCompletion correctly
-        model="gpt-4",
+        model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "Detect if the input text is in English or Japanese. Reply with 'english' or 'japanese' only."},
             {"role": "user", "content": text}
