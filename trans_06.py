@@ -3,7 +3,9 @@ import re
 import streamlit as st
 
 # Set OpenAI API Key
-api_key = st.secrets["OPENAI_API_KEY"]  # Securely retrieve your API key
+#api_key = st.secrets["OPENAI_API_KEY"]  # Securely retrieve your API key
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Function to translate text
 def translate_text(text, api_key):
