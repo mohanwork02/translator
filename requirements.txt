@@ -4,4 +4,4 @@ langchain_openai
 langchain-community
 langdetect
 openai==0.27.0
-
+upgrade pip
