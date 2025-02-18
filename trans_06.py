@@ -5,12 +5,11 @@ import os
 
 # Set OpenAI API Key
 api_key = st.secrets["OPENAI_API_KEY"]  # Securely retrieve your API key
+openai.api_key = api_key
 
 # Function to translate text
-def translate_text(text, api_key):
-    openai.api_key = api_key
-
-    # Detect the language
+def translate_text(text):
+    # Detect the language using GPT-4 (Chat-based API)
     detection_response = openai.Completion.create(  # Correct method usage
         model="gpt-4",
         prompt=f"Detect if the input text is in English or Japanese. Reply with 'english' or 'japanese' only: {text}",
@@ -64,7 +63,7 @@ st.session_state.input_text = st.text_area("Input Text", st.session_state.input_
 # Buttons for Submit and Clear
 col1, col2 = st.columns(2)
 if col1.button("Submit"):
-    result = translate_text(st.session_state.input_text, api_key)
+    result = translate_text(st.session_state.input_text)
     st.subheader("Translated Text:")
     st.write(result)
 if col2.button("Clear"):
