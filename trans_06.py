@@ -5,13 +5,13 @@ import os
 
 # Set OpenAI API Key
 api_key = st.secrets["OPENAI_API_KEY"]  # Securely retrieve your API key
-openai.api_key = api_key
+openai.api_key = api_key  # Ensure correct API key usage
 
 # Function to translate text
 def translate_text(text):
     # Detect the language using GPT-4 (Chat-based API)
     detection_response = openai.Completion.create(  # Correct method usage
-        model="gpt-4",
+        model="gpt-4",  # Use the appropriate GPT-4 model
         prompt=f"Detect if the input text is in English or Japanese. Reply with 'english' or 'japanese' only: {text}",
         max_tokens=10
     )
