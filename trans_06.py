@@ -10,12 +10,12 @@ openai.api_key = api_key  # Ensure correct API key usage
 # Function to translate text
 def translate_text(text):
     # Detect the language using GPT-4 (Chat-based API)
-    detection_response = openai.Completion.create(  # Correct method usage
+    detection_response = openai.ChatCompletion.create(  # Correct method usage
         model="gpt-4",  # Use the appropriate GPT-4 model
-        prompt=f"Detect if the input text is in English or Japanese. Reply with 'english' or 'japanese' only: {text}",
-        max_tokens=10
+        messages=[{"role": "system", "content": "Detect if the input text is in English or Japanese. Reply with 'english' or 'japanese' only."},
+                  {"role": "user", "content": text}]
     )
-    detected_language = detection_response["choices"][0]["text"].strip().lower()
+    detected_language = detection_response["choices"][0]["message"]["content"].strip().lower()
 
     # Separate English and Japanese text using regex
     japanese_text = re.findall(r'[\u3040-\u30ff\u31f0-\u31ff\u4e00-\u9fff]+', text)
@@ -27,25 +27,25 @@ def translate_text(text):
     if japanese_text:
         # Translate Japanese to English
         japanese_part = " ".join(japanese_text)
-        japanese_translation_response = openai.Completion.create(
+        japanese_translation_response = openai.ChatCompletion.create(
             model="gpt-4",
-            prompt=f"Translate the following Japanese text into English: {japanese_part}",
-            max_tokens=100
+            messages=[{"role": "system", "content": "Translate the following Japanese text into English."},
+                      {"role": "user", "content": japanese_part}]
         )
-        translated_text += japanese_translation_response["choices"][0]["text"].strip()
+        translated_text += japanese_translation_response["choices"][0]["message"]["content"].strip()
 
     if english_text:
         # Translate English to Japanese
         english_part = " ".join(english_text)
-        english_translation_response = openai.Completion.create(
+        english_translation_response = openai.ChatCompletion.create(
             model="gpt-4",
-            prompt=f"Translate the following English text into Japanese: {english_part}",
-            max_tokens=100
+            messages=[{"role": "system", "content": "Translate the following English text into Japanese."},
+                      {"role": "user", "content": english_part}]
         )
         # Add the English-to-Japanese translation
         if translated_text:
             translated_text += " "  # Space to separate the parts
-        translated_text += english_translation_response["choices"][0]["text"].strip()
+        translated_text += english_translation_response["choices"][0]["message"]["content"].strip()
 
     return translated_text
 
